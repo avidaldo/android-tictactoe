@@ -41,14 +41,14 @@ class MainActivity : AppCompatActivity() {
         val tag = button.tag.toString().toCharArray()
         val row = tag[0].digitToInt()
         val col = tag[1].digitToInt()
-        val jugadorQueMovio = modelo.marcar(row, col) ?: return // TODO: arreglar con scoped functions?
 
-        Log.i(TAG, "Celda [$row,$col] marcada por Jugador $jugadorQueMovio")
+        if (modelo.jugarTurno(row, col)) {
 
-        button.text = jugadorQueMovio.toString()
-        if (modelo.ganador != null) { // Comprobamos si el movimiento ha generado un ganador
-            binding.winnerPlayerLabel.text = jugadorQueMovio.toString()
-            binding.winnerPlayerViewGroup.visibility = View.VISIBLE
+            button.text = modelo.getplayerInCell(row, col)?.toString()
+            modelo.ganador?.let{ // Comprobamos si el movimiento ha generado un ganador
+                binding.winnerPlayerLabel.text = it.toString()
+                binding.winnerPlayerViewGroup.visibility = View.VISIBLE
+            }
         }
 
     }
