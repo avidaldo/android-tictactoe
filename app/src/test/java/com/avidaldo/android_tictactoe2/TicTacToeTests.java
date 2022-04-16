@@ -3,23 +3,20 @@ package com.avidaldo.android_tictactoe2;
 import static junit.framework.Assert.assertNull;
 import static junit.framework.Assert.assertEquals;
 
-import com.avidaldo.android_tictactoe2.model.Board;
-import com.avidaldo.android_tictactoe2.model.Player;
 
+import com.avidaldo.android_tictactoe2.model.Tablero;
+
+import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
 
-
 public class TicTacToeTests {
 
-    private Board board;
+    private Tablero board;
 
-    /** Esta anotación indica a JUnit que el método se ejecutará siempre antes
-     * de los tests, ya que será un prerequisito para poder ejecutarlos. En este caso
-     * necesitamos tener instanciado el modelo para poder probar sus métodos */
     @Before
     public void setup() {
-        board = new Board();
+        board = new Tablero();
     }
 
     /**
@@ -32,20 +29,20 @@ public class TicTacToeTests {
     @Test
     public void test3inRowAcrossTopForX() {
 
-        board.mark(0,0); // x
-        assertNull(board.getWinner()); // Comprobamos que getWinner devuelve null paa este movimiento
+        board.marcar(0,0); // x
+        assertNull(board.getGanador());
 
-        board.mark(1,0); // o
-        assertNull(board.getWinner());
+        board.marcar(1,0); // o
+        assertNull(board.getGanador());
 
-        board.mark(0,1); // x
-        assertNull(board.getWinner());
+        board.marcar(0,1); // x
+        assertNull(board.getGanador());
 
-        board.mark(2,1); // o
-        assertNull(board.getWinner());
+        board.marcar(2,1); // o
+        assertNull(board.getGanador());
 
-        board.mark(0,2); // x
-        assertEquals(Player.X, board.getWinner());
+        board.marcar(0,2); // x
+        assertEquals(Tablero.Jugador.X, board.getGanador());
     }
 
 
@@ -59,23 +56,23 @@ public class TicTacToeTests {
     @Test
     public void test3inRowDiagonalFromTopLeftToBottomForO() {
 
-        board.mark(0,1); // x
-        assertNull(board.getWinner());
+        board.marcar(0,1); // x
+        assertNull(board.getGanador());
 
-        board.mark(0,0); // o
-        assertNull(board.getWinner());
+        board.marcar(0,0); // o
+        assertNull(board.getGanador());
 
-        board.mark(2,1); // x
-        assertNull(board.getWinner());
+        board.marcar(2,1); // x
+        assertNull(board.getGanador());
 
-        board.mark(1,1); // o
-        assertNull(board.getWinner());
+        board.marcar(1,1); // o
+        assertNull(board.getGanador());
 
-        board.mark(0,2); // x
-        assertNull(board.getWinner());
+        board.marcar(0,2); // x
+        assertNull(board.getGanador());
 
-        board.mark(2,2); // o
-        assertEquals(Player.O, board.getWinner());
+        board.marcar(2,2); // o
+        assertEquals(Tablero.Jugador.O, board.getGanador());
 
     }
 
