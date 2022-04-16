@@ -1,46 +1,51 @@
-package com.avidaldo.android_tictactoe2.view
+package com.avidaldo.android_tictactoe2.ui.tresenrayaview
 
 import android.os.Bundle
-import android.view.Menu
-import android.view.MenuItem
-import android.view.View
+import android.util.Log
+import android.view.*
 import android.widget.Button
 import android.widget.GridLayout
-import androidx.activity.viewModels
-import androidx.appcompat.app.AppCompatActivity
-import androidx.lifecycle.Observer
+import androidx.fragment.app.Fragment
+import androidx.fragment.app.viewModels
 import com.avidaldo.android_tictactoe2.R
-import com.avidaldo.android_tictactoe2.databinding.ActivityMainBinding
-import com.avidaldo.android_tictactoe2.viewmodel.TresEnRayaViewModel
+import com.avidaldo.android_tictactoe2.databinding.FragmentTresEnRayaBinding
 
+class TresEnRayaViewFragment : Fragment() {
 
-class TresEnRayaActivity : AppCompatActivity() {
-    private lateinit var binding: ActivityMainBinding
+    companion object {
+        fun newInstance() = TresEnRayaViewFragment()
+    }
 
-    private val viewModel: TresEnRayaViewModel by viewModels() // Instanciamos el viewModel con la activity
+    private var _binding: FragmentTresEnRayaBinding? = null
+    private val binding get() = _binding!!
 
-    /**
-     * viewModels() devuelve una propiedad delegada Lazy para acceder al ViewModel
-     *
-     * https://kotlinlang.org/docs/delegated-properties.html
-     * https://en.wikipedia.org/wiki/Delegation_pattern
-     *
-     */
+    override fun onDestroyView() {
+        super.onDestroyView()
+        _binding = null
+    }
 
+    override fun onCreateView(
+            inflater: LayoutInflater,
+            container: ViewGroup?,
+            savedInstanceState: Bundle?,
+    ): View {
+        _binding = FragmentTresEnRayaBinding.inflate(inflater, container, false)
+        setHasOptionsMenu(true)
 
-    /***************************************************************************************
-     * Métodos del ciclo de vida
-     ***************************************************************************************/
+        return binding.root
+    }
 
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
-        binding = ActivityMainBinding.inflate(layoutInflater)
-        setContentView(binding.root)
+    /*************************************************************************/
+
+    private val viewModel: TresEnRayaViewModel by viewModels()
+
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
 
         binding.buttonGrid.setOnClickListener(::onCellClicked)
 
 
-        viewModel.modelLiveData.observe(this, Observer {
+        viewModel.modelLiveData.observe(viewLifecycleOwner) {
 
             binding.btn00.text = it.tablero[0][0].toString()
             binding.btn01.text = it.tablero[0][1].toString()
@@ -59,8 +64,7 @@ class TresEnRayaActivity : AppCompatActivity() {
                     View.VISIBLE
                 } ?: View.GONE
 
-        })
-
+        }
     }
 
 
@@ -68,12 +72,13 @@ class TresEnRayaActivity : AppCompatActivity() {
      * Definición del menú de reset
      ***************************************************************************************/
 
-    override fun onCreateOptionsMenu(menu: Menu): Boolean {
-        menuInflater.inflate(R.menu.menu, menu)
-        return true
+    override fun onCreateOptionsMenu(menu: Menu, inflater: MenuInflater) {
+        inflater.inflate(R.menu.menu, menu)
+        super.onCreateOptionsMenu(menu, inflater)
     }
 
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
+        Log.d("---", "onOptionsItemSelected fragment")
         return when (item.itemId) {
             R.id.action_reset -> {
                 viewModel.onResetSelected(); true
