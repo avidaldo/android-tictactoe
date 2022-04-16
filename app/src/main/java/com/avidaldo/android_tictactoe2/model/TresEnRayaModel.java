@@ -1,7 +1,7 @@
 package com.avidaldo.android_tictactoe2.model;
 
 
-public class Tablero {
+public class TresEnRayaModel {
 
     // Definimos 2 jugadores identificados por los caracteres 'X' y 'O', que serán los que se escriban en la celda
     public enum Jugador {X, O}
@@ -29,7 +29,7 @@ public class Tablero {
     private Jugador jugadorEnTurno;
 
 
-    public Tablero() {
+    public TresEnRayaModel() {
         reiniciar();
     }
 
@@ -48,7 +48,7 @@ public class Tablero {
      * @param col 0..2
      * @return (devuelve) el jugador en turno o null si no se ha podido marcar (celda inválida o partida acabada)
      */
-    public Jugador marcar(int row, int col) {
+    public Jugador marcarCeldaOrNull(int row, int col) {
         if (estado == GameState.TERMINADO) return null; // No se sigue marcando si el juego ha terminado
         if (!isValida(row, col)) return null; // Celda inválida (la vista ya no debería permitirlo
 
@@ -91,9 +91,7 @@ public class Tablero {
     }
 
 
-    /**
-     * Devuelve true si el movimiento gana
-     */
+    /** Devuelve true si el movimiento gana */
     private boolean isMovimientoGana(Jugador player, int fila, int columna) {
         return (celdas[fila][0].getValue() == player         // 3-in-the-row
                 && celdas[fila][1].getValue() == player
